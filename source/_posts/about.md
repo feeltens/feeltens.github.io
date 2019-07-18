@@ -1,5 +1,5 @@
 ---
-title: 关于「我」
+title: 关于 feeltens
 date: 2019-07-08 05:47:50
 tags:
 ---
@@ -11,6 +11,8 @@ feeltens = feel + ten + s
 - feel 是触摸世界、感知世界的意思。
 - ten 是 1 和 0 的组合。
 - s 是「xx 化」的意思，on the way，勇于自我革新。
+
+<!--more-->
 
 ## 博客的用途
 
