@@ -127,5 +127,8 @@
   <script type="text/javascript" src="/js/src/clipboard.min.js"></script>
   <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
 
+  <!-- themes/[theme_name]/layout/_script/comments.swig -->
+  {% include '_third-party/comments/gitalk.swig' %}
+
 </body>
 </html>
