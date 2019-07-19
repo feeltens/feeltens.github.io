@@ -1,5 +1,5 @@
 ---
-title: Linux / macOS 修改文件目录权限
+title: Linux /  macOS 修改文件目录权限
 date: 2019-07-19 05:25:13
 tags:
 	- Linux
