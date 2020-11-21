@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /categories/
+Allow: /tags/
+Allow: /archives/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: http://www.feeltens.com/sitemap.xml
+Sitemap: http://www.feeltens.com/baidusitemap.xml
+Sitemap: https://www.feeltens.com/sitemap.xml
+Sitemap: https://www.feeltens.com/baidusitemap.xml

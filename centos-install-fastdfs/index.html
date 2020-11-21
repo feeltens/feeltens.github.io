@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+  <meta name="google-site-verification" content="UUBqmoUZfXKNmLGnzRai90kBNl6HvlYSlYnC-DQY908">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=7.2.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.2.0',
+    sidebar: {"position":"right","display":"always","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="环境准备虚拟机 CentOS-7 ip：111.111.111.11本地 macOS 修改 CentOS hosts配置 hosts，将文件服务器的 ip 与域名映射。后期配置可以直接使用 file.feeltens.com 去配置服务器地址。ip 变了，就只需要修改 hosts 即可。 1sudo vim /etc/hosts 添加如下配置：12# FastDfs111.111.111.11 f">
+<meta name="keywords" content="FastDFS,CentOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 安装部署单机版 FastDFS">
+<meta property="og:url" content="http://www.feeltens.com/centos-install-fastdfs/index.html">
+<meta property="og:site_name" content="feeltens">
+<meta property="og:description" content="环境准备虚拟机 CentOS-7 ip：111.111.111.11本地 macOS 修改 CentOS hosts配置 hosts，将文件服务器的 ip 与域名映射。后期配置可以直接使用 file.feeltens.com 去配置服务器地址。ip 变了，就只需要修改 hosts 即可。 1sudo vim /etc/hosts 添加如下配置：12# FastDfs111.111.111.11 f">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190613232013.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190614000703.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190614001052.png">
+<meta property="og:updated_time" content="2020-11-20T13:31:11.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 安装部署单机版 FastDFS">
+<meta name="twitter:description" content="环境准备虚拟机 CentOS-7 ip：111.111.111.11本地 macOS 修改 CentOS hosts配置 hosts，将文件服务器的 ip 与域名映射。后期配置可以直接使用 file.feeltens.com 去配置服务器地址。ip 变了，就只需要修改 hosts 即可。 1sudo vim /etc/hosts 添加如下配置：12# FastDfs111.111.111.11 f">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190613232013.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="feeltens" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://www.feeltens.com/centos-install-fastdfs/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CentOS 安装部署单机版 FastDFS | feeltens</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">feeltens</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.feeltens.com/centos-install-fastdfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="feeltens">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="feeltens">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CentOS 安装部署单机版 FastDFS
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-18 09:56:47" itemprop="dateCreated datePublished" datetime="2019-07-18T09:56:47+08:00">2019-07-18</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-11-20 21:31:11" itemprop="dateModified" datetime="2020-11-20T21:31:11+08:00">2020-11-20</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Dev/" itemprop="url" rel="index"><span itemprop="name">Dev</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>虚拟机 CentOS-7 ip：111.111.111.11<br>本地 macOS</p>
+<p>修改 CentOS hosts<br>配置 hosts，将文件服务器的 ip 与域名映射。后期配置可以直接使用 <code>file.feeltens.com</code> 去配置服务器地址。<br>ip 变了，就只需要修改 hosts 即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/hosts</span><br></pre></td></tr></table></figure>
+<p>添加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># FastDfs</span><br><span class="line">111.111.111.11 file.feeltens.com</span><br></pre></td></tr></table></figure></p>
+<p>本地 macOS 访问虚拟机里面的 FastDFS，也需要修改 hosts。</p>
+<a id="more"></a>
+<p>CentOS 创建临时目录<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -pm 775 /myfolder</span><br></pre></td></tr></table></figure></p>
+<p>安装 CentOS 依赖包：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装-FastDFS"><a href="#安装-FastDFS" class="headerlink" title="安装 FastDFS"></a>安装 FastDFS</h2><h3 id="下载安装-libfastcommon"><a href="#下载安装-libfastcommon" class="headerlink" title="下载安装 libfastcommon"></a>下载安装 libfastcommon</h3><p>libfastcommon 是从 FastDFS 和 FastDHT 中提取出来的公共 C 函数库，基础环境，安装即可 。<br><a href="https://github.com/happyfish100/libfastcommon" target="_blank" rel="noopener">https://github.com/happyfish100/libfastcommon</a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/happyfish100/libfastcommon.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd libfastcommon</span><br></pre></td></tr></table></figure>
+<p>编译、安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./make.sh &amp;&amp; ./make.sh install</span><br></pre></td></tr></table></figure></p>
+<p>libfastcommon.so 安装到了 /usr/lib64/libfastcommon.so，但是 FastDFS 主程序设置的 lib 目录是 /usr/local/lib，所以需要创建软链接。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so</span><br><span class="line">ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so</span><br><span class="line">ln -s /usr/lib64/libfdfsclient.so /usr/local/lib/libfdfsclient.so</span><br><span class="line">ln -s /usr/lib64/libfdfsclient.so /usr/lib/libfdfsclient.so</span><br></pre></td></tr></table></figure></p>
+<h3 id="下载安装-FastDFS"><a href="#下载安装-FastDFS" class="headerlink" title="下载安装 FastDFS"></a>下载安装 FastDFS</h3><p>下载 FastDFS<br><a href="https://github.com/happyfish100/fastdfs" target="_blank" rel="noopener">https://github.com/happyfish100/fastdfs</a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/happyfish100/fastdfs.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd fastdfs</span><br></pre></td></tr></table></figure>
+<p>编译<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./make.sh</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./make.sh install</span><br></pre></td></tr></table></figure></p>
+<p>默认安装方式安装后的服务脚本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/fdfs_trackerd</span><br><span class="line">/etc/init.d/fdfs_storaged</span><br></pre></td></tr></table></figure></p>
+<p>默认安装方式安装后的配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/fdfs/tracker.conf.sample</span><br><span class="line">/etc/fdfs/storage.conf.sample</span><br><span class="line">/etc/fdfs/client.conf.sample</span><br></pre></td></tr></table></figure></p>
+<p>默认安装方式安装后的命令工具在 <code>/usr/bin</code> 目录下，列表如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_appender_test</span><br><span class="line">/usr/bin/fdfs_appender_test1</span><br><span class="line">/usr/bin/fdfs_append_file</span><br><span class="line">/usr/bin/fdfs_crc32</span><br><span class="line">/usr/bin/fdfs_delete_file</span><br><span class="line">/usr/bin/fdfs_download_file</span><br><span class="line">/usr/bin/fdfs_file_info</span><br><span class="line">/usr/bin/fdfs_monitor</span><br><span class="line">/usr/bin/fdfs_storaged</span><br><span class="line">/usr/bin/fdfs_test</span><br><span class="line">/usr/bin/fdfs_test1</span><br><span class="line">/usr/bin/fdfs_trackerd</span><br><span class="line">/usr/bin/fdfs_upload_appender</span><br><span class="line">/usr/bin/fdfs_upload_file</span><br><span class="line">/usr/bin/stop.sh</span><br><span class="line">/usr/bin/restart.sh</span><br></pre></td></tr></table></figure></p>
+<p>FastDFS 服务脚本设置的 bin 目录是 /usr/local/bin，但实际命令安装在 /usr/bin/ 下。<br>所以需要建立 /usr/bin 到 /usr/local/bin 的软链接。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/bin/fdfs_trackerd   /usr/local/bin</span><br><span class="line">ln -s /usr/bin/fdfs_storaged   /usr/local/bin</span><br><span class="line">ln -s /usr/bin/stop.sh         /usr/local/bin</span><br><span class="line">ln -s /usr/bin/restart.sh      /usr/local/bin</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置-FastDFS-跟踪器-Tracker"><a href="#配置-FastDFS-跟踪器-Tracker" class="headerlink" title="配置 FastDFS 跟踪器 (Tracker)"></a>配置 FastDFS 跟踪器 (Tracker)</h3><p>进入 /etc/fdfs，复制 FastDFS 跟踪器样例配置文件 tracker.conf.sample，并重命名为 tracker.conf。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/fdfs</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp tracker.conf.sample tracker.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim tracker.conf</span><br></pre></td></tr></table></figure>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 配置文件是否不生效，false 为生效</span><br><span class="line">disabled=false</span><br><span class="line"></span><br><span class="line"># 提供服务的端口</span><br><span class="line">port=22122</span><br><span class="line"></span><br><span class="line"># Tracker 数据和日志目录地址（根目录必须存在，子目录会自动创建）</span><br><span class="line">base_path=/opt/fastdfs/tracker</span><br><span class="line"></span><br><span class="line"># HTTP 服务端口</span><br><span class="line">http.server_port=80</span><br></pre></td></tr></table></figure></p>
+<p>创建 tracker 基础数据目录，即 base_path 对应的目录<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -pm 777 /opt/fastdfs/tracker</span><br></pre></td></tr></table></figure></p>
+<p>在防火墙中开放 22122 端口，本次虚拟机 CentOS 防火墙已完全关闭。</p>
+<p>启动 Tracker<br>初次成功启动，会在 <code>/opt/fastdfs/tracker/</code> (配置的 base_path) 下创建 <code>data</code> 和 <code>logs</code> 两个目录。<br>可以用这种方式启动<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/fdfs_trackerd start</span><br></pre></td></tr></table></figure></p>
+<p>也可以用这种方式启动，前提是上面创建了软链接，后面都用这种方式<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service fdfs_trackerd start</span><br></pre></td></tr></table></figure></p>
+<p>查看 FastDFS Tracker 是否已成功启动 ，22122 端口正在被监听，则算是 Tracker 服务安装成功。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -unltp | grep fdfs</span><br></pre></td></tr></table></figure></p>
+<p>关闭 Tracker 命令：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service fdfs_trackerd stop</span><br></pre></td></tr></table></figure></p>
+<p>设置 Tracker 开机启动<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig fdfs_trackerd on</span><br></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>加入配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/fdfs_trackerd start</span><br></pre></td></tr></table></figure></p>
+<p>Tracker 服务启动成功后，会在 base_path 下创建 data、logs 两个目录。目录结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$&#123;base_path&#125;</span><br><span class="line">  |__data</span><br><span class="line">  |   |__storage_groups.dat：存储分组信息</span><br><span class="line">  |   |__storage_servers.dat：存储服务器列表</span><br><span class="line">  |__logs</span><br><span class="line">  |   |__trackerd.log： tracker server 日志文件</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置-FastDFS-存储-Storage"><a href="#配置-FastDFS-存储-Storage" class="headerlink" title="配置 FastDFS 存储 (Storage)"></a>配置 FastDFS 存储 (Storage)</h3><p>进入 /etc/fdfs 目录，复制 FastDFS 存储器样例配置文件 storage.conf.sample，并重命名为 storage.conf<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/fdfs</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp storage.conf.sample storage.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim storage.conf</span><br></pre></td></tr></table></figure>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># 配置文件是否不生效，false 为生效</span><br><span class="line">disabled=false</span><br><span class="line"></span><br><span class="line"># 指定此 storage server 所在 组(卷)</span><br><span class="line">group_name=group1</span><br><span class="line"></span><br><span class="line"># storage server 服务端口</span><br><span class="line">port=23000</span><br><span class="line"></span><br><span class="line"># 心跳间隔时间，单位为秒 (这里是指主动向 tracker server 发送心跳)</span><br><span class="line">heart_beat_interval=30</span><br><span class="line"></span><br><span class="line"># Storage 数据和日志目录地址(根目录必须存在，子目录会自动生成)</span><br><span class="line">base_path=/opt/fastdfs/storage</span><br><span class="line"></span><br><span class="line"># 存放文件时 storage server 支持多个路径。这里配置存放文件的基路径数目，通常只配一个目录。</span><br><span class="line">store_path_count=1</span><br><span class="line"></span><br><span class="line"># 逐一配置 store_path_count 个路径，索引号基于 0。</span><br><span class="line"># 如果不配置 store_path0，那它就和 base_path 对应的路径一样。</span><br><span class="line">store_path0=/opt/fastdfs/file</span><br><span class="line"></span><br><span class="line"># FastDFS 存储文件时，采用了两级目录。这里配置存放文件的目录个数。</span><br><span class="line"># 如果本参数只为 N（如： 256），那么 storage server 在初次运行时，会在 store_path 下自动创建 N * N 个存放文件的子目录。</span><br><span class="line">subdir_count_per_path=256</span><br><span class="line"></span><br><span class="line"># tracker_server 的列表 ，会主动连接 tracker_server</span><br><span class="line"># 有多个 tracker server 时，每个 tracker server 写一行</span><br><span class="line">tracker_server=file.feeltens.com:22122</span><br><span class="line"></span><br><span class="line"># 允许系统同步的时间段 (默认是全天) 。一般用于避免高峰同步产生一些问题而设定。</span><br><span class="line">sync_start_time=00:00</span><br><span class="line">sync_end_time=23:59</span><br><span class="line"># 访问端口</span><br><span class="line">http.server_port=80</span><br></pre></td></tr></table></figure></p>
+<p>创建 Storage 基础数据目录，对应 base_path 目录<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -pm 775 /opt/fastdfs/storage</span><br></pre></td></tr></table></figure></p>
+<p>创建配置的 store_path0 路径<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -pm 775 /opt/fastdfs/file</span><br></pre></td></tr></table></figure></p>
+<p>在防火墙中开放 23000 端口，本次虚拟机 CentOS 防火墙已完全关闭。</p>
+<p>启动 Storage<br>启动 Storage 前确保 Tracker 是启动的。<br>初次启动成功，会在 <code>/opt/fastdfs/storage</code> 目录下创建 data、 logs 两个目录。</p>
+<p>可以用这种方式启动<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/fdfs_storaged start</span><br></pre></td></tr></table></figure></p>
+<p>也可以用这种方式，后面都用这种<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service fdfs_storaged start</span><br></pre></td></tr></table></figure></p>
+<p>查看 Storage 是否成功启动，23000 端口正在被监听，就算 Storage 启动成功。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -unltp | grep fdfs</span><br></pre></td></tr></table></figure></p>
+<p>关闭 Storage 命令：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service fdfs_storaged stop</span><br></pre></td></tr></table></figure></p>
+<p>查看 Storage 和 Tracker 是否在通信：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_monitor /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">➜  storage /usr/bin/fdfs_monitor /etc/fdfs/storage.conf</span><br><span class="line">[2019-06-14 06:35:39] DEBUG - base_path=/opt/fastdfs/storage, connect_timeout=30, network_timeout=60, tracker_server_count=1, anti_steal_token=0, anti_steal_secret_key length=0, use_connection_pool=0, g_connection_pool_max_idle_time=3600s, use_storage_id=0, storage server id count: 0</span><br><span class="line"></span><br><span class="line">server_count=1, server_index=0</span><br><span class="line"></span><br><span class="line">tracker server is 111.111.111.11:22122</span><br><span class="line"></span><br><span class="line">group count: 1</span><br><span class="line"></span><br><span class="line">Group 1:</span><br><span class="line">group name = group1</span><br><span class="line">disk total space = 17394 MB</span><br><span class="line">disk free space = 13128 MB</span><br><span class="line">trunk free space = 0 MB</span><br><span class="line">storage server count = 1</span><br><span class="line">active server count = 1</span><br><span class="line">storage server port = 23000</span><br><span class="line">storage HTTP port = 80</span><br><span class="line">store path count = 1</span><br><span class="line">subdir count per path = 256</span><br><span class="line">current write server index = 0</span><br><span class="line">current trunk file id = 0</span><br><span class="line"></span><br><span class="line">        Storage 1:</span><br><span class="line">                id = 111.111.111.11</span><br><span class="line">                ip_addr = 111.111.111.11 (file.feeltens.com)  ACTIVE</span><br><span class="line">                http domain = </span><br><span class="line">                version = 5.05</span><br><span class="line">                join time = 2019-06-14 06:34:57</span><br><span class="line">                up time = 2019-06-14 06:34:57</span><br><span class="line">                total storage = 17394 MB</span><br><span class="line">                free storage = 13128 MB</span><br><span class="line">                upload priority = 10</span><br><span class="line">                store_path_count = 1</span><br><span class="line">                subdir_count_per_path = 256</span><br><span class="line">                storage_port = 23000</span><br><span class="line">                storage_http_port = 80</span><br><span class="line">                current_write_path = 0</span><br><span class="line">                source storage id = </span><br><span class="line">                if_trunk_server = 0</span><br><span class="line">                connection.alloc_count = 256</span><br><span class="line">                connection.current_count = 0</span><br><span class="line">                connection.max_count = 0</span><br><span class="line">                total_upload_count = 0</span><br><span class="line">                success_upload_count = 0</span><br><span class="line">                total_append_count = 0</span><br><span class="line">                success_append_count = 0</span><br><span class="line">                total_modify_count = 0</span><br><span class="line">                success_modify_count = 0</span><br><span class="line">                total_truncate_count = 0</span><br><span class="line">                success_truncate_count = 0</span><br><span class="line">                total_set_meta_count = 0</span><br><span class="line">                success_set_meta_count = 0</span><br><span class="line">                total_delete_count = 0</span><br><span class="line">                success_delete_count = 0</span><br><span class="line">                total_download_count = 0</span><br><span class="line">                success_download_count = 0</span><br><span class="line">                total_get_meta_count = 0</span><br><span class="line">                success_get_meta_count = 0</span><br><span class="line">                total_create_link_count = 0</span><br><span class="line">                success_create_link_count = 0</span><br><span class="line">                total_delete_link_count = 0</span><br><span class="line">                success_delete_link_count = 0</span><br><span class="line">                total_upload_bytes = 0</span><br><span class="line">                success_upload_bytes = 0</span><br><span class="line">                total_append_bytes = 0</span><br><span class="line">                success_append_bytes = 0</span><br><span class="line">                total_modify_bytes = 0</span><br><span class="line">                success_modify_bytes = 0</span><br><span class="line">                stotal_download_bytes = 0</span><br><span class="line">                success_download_bytes = 0</span><br><span class="line">                total_sync_in_bytes = 0</span><br><span class="line">                success_sync_in_bytes = 0</span><br><span class="line">                total_sync_out_bytes = 0</span><br><span class="line">                success_sync_out_bytes = 0</span><br><span class="line">                total_file_open_count = 0</span><br><span class="line">                success_file_open_count = 0</span><br><span class="line">                total_file_read_count = 0</span><br><span class="line">                success_file_read_count = 0</span><br><span class="line">                total_file_write_count = 0</span><br><span class="line">                success_file_write_count = 0</span><br><span class="line">                last_heart_beat_time = 2019-06-14 06:35:29</span><br><span class="line">                last_source_update = 1970-01-01 08:00:00</span><br><span class="line">                last_sync_update = 1970-01-01 08:00:00</span><br><span class="line">                last_synced_timestamp = 1970-01-01 08:00:00</span><br></pre></td></tr></table></figure></p>
+<p>重要信息是 <code>Storage ip_addr = 111.111.111.11 (file.feeltens.com)  ACTIVE</code>。</p>
+<p>设置 Storage 开机启动<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig fdfs_storaged on</span><br></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>加入配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/fdfs_storaged start</span><br></pre></td></tr></table></figure></p>
+<p>Storage 目录同 Tracker，Storage 启动成功后，在 base_path 下创建了 data、logs 目录，记录着 Storage Server 的信息。<br>在 store_path0 目录下，创建了 N*N 个子目录。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/fastdfs/file/data</span><br></pre></td></tr></table></figure></p>
+<h3 id="文件上传测试"><a href="#文件上传测试" class="headerlink" title="文件上传测试"></a>文件上传测试</h3><p>修改 Tracker 服务器中的客户端配置文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/fdfs</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp client.conf.sample client.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim client.conf</span><br></pre></td></tr></table></figure>
+<p>修改如下配置即可，其它默认。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Client 的数据和日志目录</span><br><span class="line">base_path=/opt/fastdfs/client</span><br><span class="line"></span><br><span class="line"># Tracker 端口</span><br><span class="line">tracker_server=file.feeltens.com:22122</span><br></pre></td></tr></table></figure></p>
+<p>上传测试<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -pm 775 /opt/fastdfs/client</span><br></pre></td></tr></table></figure></p>
+<p>在 CentOS 内部执行如下命令，上传 1.jpg 图片<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_upload_file /etc/fdfs/client.conf /myfolder/1.jpg</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  /myfolder /usr/bin/fdfs_upload_file /etc/fdfs/client.conf /myfolder/1.jpg</span><br><span class="line">group1/M00/00/00/b29vC10C0YaAXl0GAADglZ7FErM123.jpg</span><br></pre></td></tr></table></figure></p>
+<p>返回的文件 ID 由 group、存储目录、两级子目录、fileid、文件后缀名（由客户端指定，主要用于区分文件类型）拼接而成。<br><img src="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190613232013.png" alt></p>
+<p>查找上传的图片<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/fastdfs/file/data/00/00</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ll</span><br></pre></td></tr></table></figure>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  00 ll</span><br><span class="line">total 60K</span><br><span class="line">-rw-r--r--. 1 root root 57K Jun 14 06:43 b29vC10C0YaAXl0GAADglZ7FErM123.jpg</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装-Nginx"><a href="#安装-Nginx" class="headerlink" title="安装 Nginx"></a>安装 Nginx</h2><p>Nginx 只需要安装到 StorageServer 所在的服务器即可，用于访问文件。<br>单机部署 TrackerServer 和 StorageServer 在一台服务器上。</p>
+<h3 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -c https://nginx.org/download/nginx-1.15.1.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf nginx-1.15.1.tar.gz</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd nginx-1.15.1</span><br></pre></td></tr></table></figure>
+<p>使用默认配置<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></table></figure></p>
+<p>编译、安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>启动 nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/sbin</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx</span><br></pre></td></tr></table></figure>
+<p>其他 nginx 命令：<br>停止 nginx 服务：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s stop</span><br></pre></td></tr></table></figure></p>
+<p>退出 nginx 服务：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s quit</span><br></pre></td></tr></table></figure></p>
+<p>重新加载 nginx 配置：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<p>设置 nginx 开机启动：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>添加一行配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure></p>
+<p>设置执行权限：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 755 /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>查看 nginx 的版本和模块<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  sbin /usr/local/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.15.1</span><br><span class="line">built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC)</span><br><span class="line">configure arguments:</span><br></pre></td></tr></table></figure></p>
+<p>在防火墙中开放 nginx 的默认 80 端口，本次虚拟机 CentOS 防火墙已完全关闭。</p>
+<h3 id="配置-nginx"><a href="#配置-nginx" class="headerlink" title="配置 nginx"></a>配置 nginx</h3><p>修改 nginx.conf<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<p>在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">error_page   500 502 503 504  /50x.html;</span><br><span class="line">location = /50x.html &#123;</span><br><span class="line">    root   html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下方<br>添加如下配置，将 /group1/M00 映射到 /opt/fastdfs/file/data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /group1/M00 &#123;</span><br><span class="line">    alias /opt/fastdfs/file/data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重启 nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<h3 id="测试访问图片"><a href="#测试访问图片" class="headerlink" title="测试访问图片"></a>测试访问图片</h3><p>在外面主机 macOS 的浏览器访问之前上传的图片。<br><a href="http://file.feeltens.com/group1/M00/00/00/b29vC10C0YaAXl0GAADglZ7FErM123.jpg" target="_blank" rel="noopener">http://file.feeltens.com/group1/M00/00/00/b29vC10C0YaAXl0GAADglZ7FErM123.jpg</a></p>
+<h2 id="FastDFS-配置-Nginx-模块"><a href="#FastDFS-配置-Nginx-模块" class="headerlink" title="FastDFS 配置 Nginx 模块"></a>FastDFS 配置 Nginx 模块</h2><h3 id="fastdfs-nginx-module-模块说明"><a href="#fastdfs-nginx-module-模块说明" class="headerlink" title="fastdfs-nginx-module 模块说明"></a>fastdfs-nginx-module 模块说明</h3><p>FastDFS 通过 Tracker 服务器，将文件放在 Storage 服务器存储，但是同组存储服务器之间需要进行文件复制，有同步延迟的问题。<br>假设 Tracker 服务器将文件上传到了 192.168.51.128，上传成功后文件 ID 已经返回给客户端。<br>此时 FastDFS 存储集群机制，会将这个文件同步到同组存储 192.168.51.129。在文件还没有复制完成的情况下，客户端如果用这个文件 ID 在 192.168.51.129 上取文件，就会出现文件无法访问的错误。<br>而 fastdfs-nginx-module 可以重定向文件链接到源服务器取文件，避免客户端由于复制延迟导致的文件无法访问错误。</p>
+<h3 id="安装配置-fastdfs-nginx-module"><a href="#安装配置-fastdfs-nginx-module" class="headerlink" title="安装配置 fastdfs-nginx-module"></a>安装配置 fastdfs-nginx-module</h3><p>下载 fastdfs-nginx-module<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/happyfish100/fastdfs-nginx-module/archive/5e5f3566bbfa57418b5506aaefbe107a42c9fcb1.zip</span><br></pre></td></tr></table></figure>
+<p>fastdfs-nginx-module 最新版的 master 与当前 nginx 有些版本问题，所以指定旧有稳定版本。</p>
+<p>解压<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip 5e5f3566bbfa57418b5506aaefbe107a42c9fcb1.zip</span><br></pre></td></tr></table></figure></p>
+<p>重命名<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv fastdfs-nginx-module-5e5f3566bbfa57418b5506aaefbe107a42c9fcb1  fastdfs-nginx-module-master</span><br></pre></td></tr></table></figure></p>
+<p>配置 nginx<br>停止 nginx 服务<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s stop</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder/nginx-1.15.1</span><br></pre></td></tr></table></figure>
+<p>添加 fastdfs-nginx-module 模块<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --add-module=../fastdfs-nginx-module-master/src</span><br></pre></td></tr></table></figure></p>
+<p>重新编译、安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>查看 nginx 模块<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -V</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  nginx-1.15.1 /usr/local/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.15.1</span><br><span class="line">built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC)</span><br><span class="line">configure arguments: --add-module=../fastdfs-nginx-module-master/src</span><br></pre></td></tr></table></figure></p>
+<p>复制 fastdfs-nginx-module 源码中的配置文件到 /etc/fdfs 目录，并修改<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder/fastdfs-nginx-module-master/src</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp mod_fastdfs.conf /etc/fdfs/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fdfs/mod_fastdfs.conf</span><br></pre></td></tr></table></figure>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 连接超时时间</span><br><span class="line">connect_timeout=10</span><br><span class="line"></span><br><span class="line"># Tracker Server</span><br><span class="line">tracker_server=file.feeltens.com:22122</span><br><span class="line"></span><br><span class="line"># StorageServer 默认端口</span><br><span class="line">storage_server_port=23000</span><br><span class="line"></span><br><span class="line"># 如果文件 ID 的 uri 中包含 /group**，则要设置为 true</span><br><span class="line">url_have_group_name = true</span><br><span class="line"></span><br><span class="line"># Storage 配置的 store_path0 路径，必须和 storage.conf 中的一致</span><br><span class="line">store_path0=/opt/fastdfs/file</span><br></pre></td></tr></table></figure></p>
+<p>复制 FastDFS 的部分配置文件到 /etc/fdfs 目录<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder/fastdfs/conf/</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp anti-steal.jpg http.conf mime.types /etc/fdfs/</span><br></pre></td></tr></table></figure>
+<p>配置 nginx，修改 nginx.conf<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改配置：<br>注释掉刚刚添加的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /group1/M00 &#123;</span><br><span class="line">    alias /opt/fastdfs/file/data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>并在 80 端口下添加 fastdfs-nginx 模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ~/group([0-9])/M00 &#123;</span><br><span class="line">    ngx_fastdfs_module;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190614000703.png" alt="fastdfs-nginx-config"><br>注意：<br><code>listen 80</code> 端口值是要与 <code>/etc/fdfs/storage.conf</code> 中的 <code>http.server_port=80</code> (前面改成 80 了) 相对应。如果改成其它端口，则需要统一，同时在防火墙中打开该端口。<br><code>location</code> 的配置，如果有多个 group 则配置 location ~/group([0-9])/M00 ，没有则不用配 group。</p>
+<p>启动 nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure></p>
+<p>打印处如下就算配置成功。<br>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  conf /usr/local/nginx/sbin/nginx</span><br><span class="line">ngx_http_fastdfs_set pid=67575</span><br></pre></td></tr></table></figure></p>
+<h3 id="测试访问图片-1"><a href="#测试访问图片-1" class="headerlink" title="测试访问图片"></a>测试访问图片</h3><p>在外面主机 macOS 的浏览器访问之前上传的图片。<br><a href="http://file.feeltens.com/group1/M00/00/00/b29vC10C0YaAXl0GAADglZ7FErM123.jpg" target="_blank" rel="noopener">http://file.feeltens.com/group1/M00/00/00/b29vC10C0YaAXl0GAADglZ7FErM123.jpg</a></p>
+<p><img src="https://raw.githubusercontent.com/feeltens/vnote-resources/master/images/20190614001052.png" alt="FastDFS最终部署结构图"></p>
+<h2 id="安装-FastDHT"><a href="#安装-FastDHT" class="headerlink" title="安装 FastDHT"></a>安装 FastDHT</h2><p>FastDFS 本身是不支持重复文件去重的。可以借助 <code>FastDHT</code> 来实现文件去重。<br>FastDHT 是分布式哈希系统（DHT），使用 Berkeley DB 做数据存储，使用 libevent 做网络 IO 处理。依赖于 libfastcommon。</p>
+<h3 id="安装-Berkeley-DB"><a href="#安装-Berkeley-DB" class="headerlink" title="安装 Berkeley DB"></a>安装 Berkeley DB</h3><p>下载 berkeley-db<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.oracle.com/berkeley-db/db-6.0.30.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf db-6.0.30.tar.gz</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd db-6.0.30/build_unix</span><br></pre></td></tr></table></figure>
+<p>进行提权：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 ../dist/configure</span><br></pre></td></tr></table></figure></p>
+<p>选择安装目录<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">../dist/configure --prefix=/usr</span><br></pre></td></tr></table></figure></p>
+<p>编译、安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>安装完 db，会在 /usr/local 目录下生成 berkeley-db 目录。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/ &amp;&amp; ll</span><br></pre></td></tr></table></figure></p>
+<p>berkeley-db 安装后的目录结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">/usr</span><br><span class="line">├── bin</span><br><span class="line">│   ├── db_archive</span><br><span class="line">│   ├── db_checkpoint</span><br><span class="line">│   ├── db_codegen</span><br><span class="line">│   ├── db_deadlock</span><br><span class="line">│   ├── db_dump</span><br><span class="line">│   ├── db_hotbackup</span><br><span class="line">│   ├── db_load</span><br><span class="line">│   ├── db_printlog</span><br><span class="line">│   ├── db_recover</span><br><span class="line">│   ├── db_stat</span><br><span class="line">│   ├── db_upgrade</span><br><span class="line">│   └── db_verify</span><br><span class="line">├── common</span><br><span class="line">│   ├── crypto_stub.c</span><br><span class="line">│   ├── db_byteorder.c</span><br><span class="line">│   ├── db_err.c</span><br><span class="line">│   ├── db_getlong.c</span><br><span class="line">│   ├── db_idspace.c</span><br><span class="line">│   ├── db_log2.c</span><br><span class="line">│   ├── db_shash.c</span><br><span class="line">│   ├── dbt.c</span><br><span class="line">│   ├── mkpath.c</span><br><span class="line">│   ├── openflags.c</span><br><span class="line">│   ├── os_method.c</span><br><span class="line">│   ├── tags -&gt; ../dist/tags</span><br><span class="line">│   ├── util_arg.c</span><br><span class="line">│   ├── util_cache.c</span><br><span class="line">│   ├── util_log.c</span><br><span class="line">│   ├── util_sig.c</span><br><span class="line">│   └── zerofill.c</span><br><span class="line">├── docs</span><br><span class="line">│   ├── api_c</span><br><span class="line">│   ├── api_cxx</span><br><span class="line">│   ├── api_tcl</span><br><span class="line">│   ├── articles</span><br><span class="line">│   ├── collections</span><br><span class="line">│   ├── gsg</span><br><span class="line">│   ├── gsg_db_rep</span><br><span class="line">│   ├── gsg_txn</span><br><span class="line">│   ├── images</span><br><span class="line">│   ├── java</span><br><span class="line">│   ├── license</span><br><span class="line">│   ├── porting</span><br><span class="line">│   ├── ref</span><br><span class="line">│   └── utility</span><br><span class="line">│   └── index.html</span><br><span class="line">├── include</span><br><span class="line">│   ├── db.h</span><br><span class="line">│   └── db_cxx.h</span><br><span class="line">└── lib</span><br><span class="line">    ├── libdb-6.0.a</span><br><span class="line">    ├── libdb-6.0.la</span><br><span class="line">    ├── libdb-6.0.so</span><br><span class="line">    ├── libdb-6.so -&gt; libdb-6.0.so</span><br><span class="line">    ├── libdb.a</span><br><span class="line">    └── libdb.so -&gt; libdb-6.0.so</span><br></pre></td></tr></table></figure></p>
+<h3 id="下载安装-FastDHT"><a href="#下载安装-FastDHT" class="headerlink" title="下载安装 FastDHT"></a>下载安装 FastDHT</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /myfolder</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/happyfish100/fastdht.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd fastdht</span><br></pre></td></tr></table></figure>
+<p>编译、安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./make.sh</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./make.sh install</span><br></pre></td></tr></table></figure>
+<p>最后会在 /usr/local/bin 生成安装后的文件，在 /etc/fdht 下生成配置文件。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/bin &amp;&amp; ll</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/fdht &amp;&amp; ll</span><br></pre></td></tr></table></figure>
+<h3 id="配置-FastDHT"><a href="#配置-FastDHT" class="headerlink" title="配置 FastDHT"></a>配置 FastDHT</h3><p>创建 fastdht 目录<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -pm 775 /opt/fastdfs/fastdht</span><br></pre></td></tr></table></figure></p>
+<p>修改 fdhtd.conf 文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fdht/fdhtd.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">port=11411</span><br><span class="line">base_path=/opt/fastdfs/fastdht</span><br><span class="line"># 有 # 表示打开，如果想关闭此选项，则应该为 ## 开头。# 和 include 之间没有空格</span><br><span class="line">#include /etc/fdht/fdht_servers.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改 fdht_servers.conf 文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fdht/fdht_servers.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 分组数量（数字可自定义）</span><br><span class="line">group_count = 1</span><br><span class="line">group0 = file.feeltens.com:11411</span><br><span class="line"># group0 = 192.168.224.224:11411</span><br><span class="line"># group1 = 192.168.224.223:11411</span><br><span class="line"># group1 = 192.168.224.224:11411</span><br></pre></td></tr></table></figure></p>
+<p>修改 fdht_client.conf 文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fdht/fdht_client.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># keep_alive=1 关联 storaged.conf 文件</span><br><span class="line">keep_alive=1</span><br><span class="line">base_path=/opt/fastdfs/fastdht</span><br><span class="line">#（注意： # 和 include 之间没有空格）</span><br><span class="line">#include /etc/fdht/fdht_servers.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改 storage.conf 文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 是否检测上传文件已经存在。如果已经存在，则不存在文件内容，建立一个索引链接以节省磁盘空间</span><br><span class="line">check_file_duplicate=1</span><br><span class="line"># 当上个参数设定为1时，在 FastDHT 中的命名空间</span><br><span class="line">key_namespace=FastDFS</span><br><span class="line"># 长连接配置选项，如果为0则为短连接 1为长连接</span><br><span class="line">keep_alive=1</span><br><span class="line"># 可以通过 #include filename 方式来加载 FastDHT servers  的配置</span><br><span class="line"># 注意： # 和 include 之间没有空格</span><br><span class="line">#include /etc/fdht/fdht_servers.conf</span><br></pre></td></tr></table></figure></p>
+<p>查看动态链接库是否全链接完毕<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd /usr/local/bin/fdhtd</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  fdht ldd /usr/local/bin/fdhtd</span><br><span class="line">        linux-vdso.so.1 =&gt;  (0x00007ffe52792000)</span><br><span class="line">        libdb-6.0.so =&gt; not found</span><br><span class="line">        libfastcommon.so =&gt; /lib/libfastcommon.so (0x00007f86dc518000)</span><br><span class="line">        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007f86dc2fc000)</span><br><span class="line">        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f86dbf2f000)</span><br><span class="line">        libm.so.6 =&gt; /lib64/libm.so.6 (0x00007f86dbc2d000)</span><br><span class="line">        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f86dba29000)</span><br><span class="line">        /lib64/ld-linux-x86-64.so.2 (0x00007f86dc759000)</span><br></pre></td></tr></table></figure></p>
+<p>提示缺少 libdb-6.0.so。<br>执行 ldconfig 命令：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldconfig</span><br></pre></td></tr></table></figure></p>
+<p><code>ldconfig</code> 命令的用途，主要是在默认搜寻目录 (/lib 和 /usr/lib) 以及动态库配置文件 /etc/ld.so.conf 内所列的目录下，搜索出可共享的动态链接库 (格式如 lib.so)，进而创建出动态装入程序(ld.so) 所需的连接和缓存文件。缓存文件默认为 /etc/ld.so.cache，此文件保存已排好序的动态链接库名字列表。<br>再次查看动态链接库是否全链接完毕<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd /usr/local/bin/fdhtd</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  fdht ldd /usr/local/bin/fdhtd</span><br><span class="line">        linux-vdso.so.1 =&gt;  (0x00007ffd26992000)</span><br><span class="line">        libdb-6.0.so =&gt; /lib/libdb-6.0.so (0x00007f8c3a3db000)</span><br><span class="line">        libfastcommon.so =&gt; /lib/libfastcommon.so (0x00007f8c3a19a000)</span><br><span class="line">        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007f8c39f7e000)</span><br><span class="line">        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f8c39bb1000)</span><br><span class="line">        libm.so.6 =&gt; /lib64/libm.so.6 (0x00007f8c398af000)</span><br><span class="line">        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f8c396ab000)</span><br><span class="line">        /lib64/ld-linux-x86-64.so.2 (0x00007f8c3a7b9000)</span><br></pre></td></tr></table></figure></p>
+<h3 id="启动-FastDHT"><a href="#启动-FastDHT" class="headerlink" title="启动 FastDHT"></a>启动 FastDHT</h3><p>注意：要先启动 FastDHT，再启动 storage，才能使文件去重功能生效。</p>
+<p>启动 FastDHT 命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdhtd /etc/fdht/fdhtd.conf</span><br></pre></td></tr></table></figure></p>
+<p>重启 FastDHT 命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdhtd /etc/fdht/fdhtd.conf restart</span><br></pre></td></tr></table></figure></p>
+<p>验证配置文件是否正确<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">service fdfs_trackerd restart</span><br><span class="line">fdhtd /etc/fdht/fdhtd.conf</span><br><span class="line">service fdfs_storaged restart</span><br><span class="line">/usr/local/bin/fdht_test /etc/fdht/fdht_client.conf</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/fdht_test: Symbol `g_log_context&apos; has different size in shared object, consider re-linking</span><br><span class="line">fdht_get_sub_keys fail, errno: 95, error info: Operation not supported</span><br></pre></td></tr></table></figure></p>
+<p>问题未解决，不过使用不受影响。TODO</p>
+<p>查看端口是否启动<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an | grep 11411</span><br></pre></td></tr></table></figure></p>
+<p>显示结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  fdht netstat -an | grep 11411</span><br><span class="line">tcp        0      0 0.0.0.0:11411           0.0.0.0:*               LISTEN</span><br></pre></td></tr></table></figure></p>
+<p>设置 FastDHT 开机自启<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>加入以下配置：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdhtd /etc/fdht/fdhtd.conf</span><br></pre></td></tr></table></figure></p>
+<p>如果开启自启不生效，可能是 CentOS 找不到 fdhtd 文件。建议把全路径写上：/usr/local/bin/fdhtd /etc/fdht/fdhtd.conf。<br>执行命令，使之生效：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<h2 id="后续维护命令"><a href="#后续维护命令" class="headerlink" title="后续维护命令"></a>后续维护命令</h2><p>重启 FastDFS 的 tracker、storage 和 FastDHT<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service fdfs_trackerd start</span><br><span class="line">fdhtd /etc/fdht/fdhtd.conf restart</span><br><span class="line">service fdfs_storaged restart</span><br></pre></td></tr></table></figure></p>
+<p>查看 FastDFS 和 FastDHT 运行状态<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -unltp | grep fdfs &amp;&amp; netstat -unltp | grep fdhtd</span><br></pre></td></tr></table></figure></p>
+<p>查看 FastDFS 的 tracker、storage 和 FastDHT 的相关日志<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /opt/fastdfs/tracker/logs/trackerd.log</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /opt/fastdfs/storage/logs/storaged.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /opt/fastdfs/fastdht/logs/fdhtd.log</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>用 FastDFS 一步步搭建文件管理系统 - bojiangzhou - 博客园<br><a href="https://www.cnblogs.com/chiangchou/p/fastdfs.html" target="_blank" rel="noopener">https://www.cnblogs.com/chiangchou/p/fastdfs.html</a><br>【FastDFS】FastDFS+FastDHT 完成文件上传去重 - 柠檬树 - CSDN 博客<br><a href="https://blog.csdn.net/qq_26545305/article/details/80071256" target="_blank" rel="noopener">https://blog.csdn.net/qq_26545305/article/details/80071256</a><br>fastdht github install 说明文档<br><a href="https://github.com/happyfish100/fastdht/blob/master/INSTALL" target="_blank" rel="noopener">https://github.com/happyfish100/fastdht/blob/master/INSTALL</a><br>Oracle Berkeley DB - Previous Releases<br><a href="https://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index-082944.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index-082944.html</a><br>[FastDFS] FastDFS FAQ<br><a href="http://bbs.chinaunix.net/thread-1920470-1-1.html" target="_blank" rel="noopener">http://bbs.chinaunix.net/thread-1920470-1-1.html</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/FastDFS/" rel="tag"># FastDFS</a>
+          
+            <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/about/" rel="next" title="关于 feeltens">
+                <i class="fa fa-chevron-left"></i> 关于 feeltens
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/linux-macos-change-file-permission/" rel="prev" title="Linux /  macOS 修改文件目录权限">
+                Linux /  macOS 修改文件目录权限 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="feeltens">
+            
+              <p class="site-author-name" itemprop="name">feeltens</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/feeltens" title="GitHub &rarr; https://github.com/feeltens" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:feeltens@gmail.com" title="E-Mail &rarr; mailto:feeltens@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-FastDFS"><span class="nav-number">2.</span> <span class="nav-text">安装 FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装-libfastcommon"><span class="nav-number">2.1.</span> <span class="nav-text">下载安装 libfastcommon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装-FastDFS"><span class="nav-number">2.2.</span> <span class="nav-text">下载安装 FastDFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-FastDFS-跟踪器-Tracker"><span class="nav-number">2.3.</span> <span class="nav-text">配置 FastDFS 跟踪器 (Tracker)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-FastDFS-存储-Storage"><span class="nav-number">2.4.</span> <span class="nav-text">配置 FastDFS 存储 (Storage)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传测试"><span class="nav-number">2.5.</span> <span class="nav-text">文件上传测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Nginx"><span class="nav-number">3.</span> <span class="nav-text">安装 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-nginx"><span class="nav-number">3.1.</span> <span class="nav-text">安装 nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-nginx"><span class="nav-number">3.2.</span> <span class="nav-text">配置 nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试访问图片"><span class="nav-number">3.3.</span> <span class="nav-text">测试访问图片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS-配置-Nginx-模块"><span class="nav-number">4.</span> <span class="nav-text">FastDFS 配置 Nginx 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fastdfs-nginx-module-模块说明"><span class="nav-number">4.1.</span> <span class="nav-text">fastdfs-nginx-module 模块说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装配置-fastdfs-nginx-module"><span class="nav-number">4.2.</span> <span class="nav-text">安装配置 fastdfs-nginx-module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试访问图片-1"><span class="nav-number">4.3.</span> <span class="nav-text">测试访问图片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-FastDHT"><span class="nav-number">5.</span> <span class="nav-text">安装 FastDHT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Berkeley-DB"><span class="nav-number">5.1.</span> <span class="nav-text">安装 Berkeley DB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装-FastDHT"><span class="nav-number">5.2.</span> <span class="nav-text">下载安装 FastDHT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-FastDHT"><span class="nav-number">5.3.</span> <span class="nav-text">配置 FastDHT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-FastDHT"><span class="nav-number">5.4.</span> <span class="nav-text">启动 FastDHT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续维护命令"><span class="nav-number">6.</span> <span class="nav-text">后续维护命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">feeltens</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+
+  
+  <script src="/js/js.cookie.js?v=7.2.0"></script>
+  <script src="/js/scroll-cookie.js?v=7.2.0"></script>
+
+
+  
+
+  
+
+  
+
+
+  
+    
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b1ea7fce22d3683d8110',
+          clientSecret: 'a4e04d34706709c25a54211e9947e72a8613681d',
+          repo: 'hexo-gitalk',
+          owner: 'feeltens',
+          admin: ['feeltens'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
+
+  
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b1ea7fce22d3683d8110',
+          clientSecret: 'a4e04d34706709c25a54211e9947e72a8613681d',
+          repo: 'hexo-gitalk',
+          owner: 'feeltens',
+          admin: ['feeltens'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script>pangu.spacingPage();</script>
+
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
+  <!-- themes/[theme_name]/layout/_script/comments.swig -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b1ea7fce22d3683d8110',
+          clientSecret: 'a4e04d34706709c25a54211e9947e72a8613681d',
+          repo: 'hexo-gitalk',
+          owner: 'feeltens',
+          admin: ['feeltens'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
+
+
+</body>
+</html>
