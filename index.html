@@ -436,7 +436,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/macos-big-sur-upgrade/" class="post-title-link" itemprop="url">macos-big-sur-upgrade</a>
+                <a href="/macos-big-sur-upgrade/" class="post-title-link" itemprop="url">macOS Big Sur 升级记录</a>
               
             
           </h2>
@@ -461,13 +461,23 @@
                 
               
 
-              <time title="创建时间：2020-11-20 19:23:44 / 修改时间：21:31:11" itemprop="dateCreated datePublished" datetime="2020-11-20T19:23:44+08:00">2020-11-20</time>
+              <time title="创建时间：2020-11-20 19:23:44" itemprop="dateCreated datePublished" datetime="2020-11-20T19:23:44+08:00">2020-11-20</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-11-21 13:36:36" itemprop="dateModified" datetime="2020-11-21T13:36:36+08:00">2020-11-21</time>
+              </span>
             
           
 
@@ -504,25 +514,16 @@
 
       
         
+          <p>自从 Apple 发布 macOS Big Sur 系统之后，笔者就怀着一颗追新的心，马不停蹄地下载 macOS Big Sur 完整镜像，抹盘重装自己的 Macbook。然后，Macbook 就一天一崩溃。。幸好，有问题，咱不怕。新系统升级带来的各种软件兼容性问题，总归要解决的。基本上，每天解决一个小问题，自己手上的 Macbook 也越用越顺手了。记录一下，留作备忘。</p>
+          <!--noindex-->
           
-            <h1 id="macOS-Big-Sur-升级记录"><a href="#macOS-Big-Sur-升级记录" class="headerlink" title="macOS Big Sur 升级记录"></a>macOS Big Sur 升级记录</h1><hr>
-<p>自从 Apple 发布 macOS Big Sur 系统之后，笔者就怀着一颗追新的心，马不停蹄地下载 macOS Big Sur 完整镜像，抹盘重装自己的 Macbook。然后，Macbook 就一天一崩溃。。幸好，有问题，咱不怕。新系统升级带来的各种软件兼容性问题，总归要解决的。基本上，每天解决一个小问题，自己手上的 Macbook 也越用越顺手了。记录一下，留作备忘。</p>
-<h2 id="V2RayX"><a href="#V2RayX" class="headerlink" title="V2RayX"></a>V2RayX</h2><p>万万没想到，最重要的上网工具 V2RayX，竟然崩溃了。没关系，我换用 ClashX 就好了。</p>
-<h2 id="Proxifier"><a href="#Proxifier" class="headerlink" title="Proxifier"></a>Proxifier</h2><p>Proxifier 作为最常用的代理软件，在 Big Sur 系统上，需要升级到 V3 版本。但最关键的注册码，从何而来呢？幸好有万能的 GitHub，顺便贴出自己的 Proxifier for Mac V3 注册码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3CWNN-WYTP4-SD83W-ASDFR-84KEA</span><br></pre></td></tr></table></figure>
-<h2 id="WeChat-plugin"><a href="#WeChat-plugin" class="headerlink" title="WeChat-plugin"></a>WeChat-plugin</h2><p>在 Mac 微信上删除对话框，然后 Macbook 又 crash 了。。没关系，我暂时不用 WeChat-plugin 的防撤回功能了。</p>
-<h2 id="迅雷"><a href="#迅雷" class="headerlink" title="迅雷"></a>迅雷</h2><p>之前的 Thunder v6.6.6 修改版也闪退了，幸好找到了 Thunder for Mac v9.9.9 版本，虽然不完美，但凑合用吧。</p>
-<h2 id="Turbo-Boost-Switcher-Pro"><a href="#Turbo-Boost-Switcher-Pro" class="headerlink" title="Turbo Boost Switcher Pro"></a>Turbo Boost Switcher Pro</h2><p>升级完系统，第一时间更新了 Turbo Boost Switcher Pro 新版本。但是总是禁用不了 Turbo Boost。关键时刻还得靠官网 FAQ。详见：<a href="https://www.rugarciap.com/faqs/" target="_blank" rel="noopener">https://www.rugarciap.com/faqs/</a></p>
-<p>重要步骤：重启到 Recovery 模式（启动时，长按 Command + R），打开 Terminal，输入如下命令：（YourVolumeName 替换成你的系统盘的卷名称）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kmutil trigger-panic-medic --volume-root /Volumes/&lt;YourVolumeName&gt;</span><br></pre></td></tr></table></figure>
-<p>然后，再重启，就发现可以禁用 Intel 的 Turbo Boost 了。</p>
-<h2 id="Parallels-Desktop-16-联网"><a href="#Parallels-Desktop-16-联网" class="headerlink" title="Parallels Desktop 16 联网"></a>Parallels Desktop 16 联网</h2><p>在 Parallels Desktop 16 特别版上，虚拟机无法联网。</p>
-<p>此时，完全退出 Parallels Desktop。在 Terminal 中，输入以下命令和用户密码，会自动启动 Parallels Desktop。（注意：Terminal 不要关掉。）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -b /Applications/Parallels\ Desktop.app/Contents/MacOS/prl_client_app</span><br></pre></td></tr></table></figure>
-<p>后来，又去试了一下 VMware Fusion for Mac v12，还算不错，但首选还是 PD。</p>
-<p>总结一下，追新挺好，稳定为主。</p>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/macos-big-sur-upgrade/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
+          <!--/noindex-->
         
       
     </div>
@@ -601,7 +602,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/idea-skills/" class="post-title-link" itemprop="url">idea-skills</a>
+                <a href="/idea-skills/" class="post-title-link" itemprop="url">IntelliJ IDEA 技巧</a>
               
             
           </h2>
@@ -641,7 +642,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-11-20 21:31:11" itemprop="dateModified" datetime="2020-11-20T21:31:11+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-21 13:37:34" itemprop="dateModified" datetime="2020-11-21T13:37:34+08:00">2020-11-21</time>
               </span>
             
           
