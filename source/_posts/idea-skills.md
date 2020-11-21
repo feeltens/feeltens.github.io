@@ -1,5 +1,5 @@
 ---
-title: idea-skills
+title: IntelliJ IDEA 技巧
 date: 2020-08-08 14:45:40
 tags:
     - idea

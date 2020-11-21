@@ -1,14 +1,12 @@
 ---
-title: macos-big-sur-upgrade
+title: macOS Big Sur 升级记录
 date: 2020-11-20 19:23:44
 tags: macOS
 ---
 
-# macOS Big Sur 升级记录
-
----
-
 自从 Apple 发布 macOS Big Sur 系统之后，笔者就怀着一颗追新的心，马不停蹄地下载 macOS Big Sur 完整镜像，抹盘重装自己的 Macbook。然后，Macbook 就一天一崩溃。。幸好，有问题，咱不怕。新系统升级带来的各种软件兼容性问题，总归要解决的。基本上，每天解决一个小问题，自己手上的 Macbook 也越用越顺手了。记录一下，留作备忘。
+
+<!--more-->
 
 ## V2RayX
 
@@ -53,5 +51,7 @@ sudo -b /Applications/Parallels\ Desktop.app/Contents/MacOS/prl_client_app
 ```
 
 后来，又去试了一下 VMware Fusion for Mac v12，还算不错，但首选还是 PD。
+
+---
 
 总结一下，追新挺好，稳定为主。
