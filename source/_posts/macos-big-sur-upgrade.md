@@ -20,6 +20,17 @@ Proxifier 作为最常用的代理软件，在 Big Sur 系统上，需要升级�
 3CWNN-WYTP4-SD83W-ASDFR-84KEA
 ```
 
+欣喜之余，在使用 IntelliJ IDEA 做 Java 工程 debug 时，报出了如下异常：
+
+```
+Unable to open debugger port (127.0.0.1:0): java.net.SocketException "Protocol wrong type for socket (Listen failed)"
+```
+
+百度、Google 过相关的错误，大多答非所问。最终在 Stack Overflow 上找到了问题所在，居然是 Proxifier 的代理出现了问题，也有人说是 macOS Big Sur 本身的 Network Extension API 问题，暂时也无解，只得在 debug 时，关掉 Proxifier。
+
+相关网址：Cannot listen to any TCP port on macOS Big Sur with app Proxifier: protocol wrong type for socket - Stack Overflow 
+https://stackoverflow.com/questions/64822795/cannot-listen-to-any-tcp-port-on-macos-big-sur-with-app-proxifier-protocol-wron
+
 ## WeChat-plugin
 
 在 Mac 微信上删除对话框，然后 Macbook 又 crash 了。。没关系，我暂时不用 WeChat-plugin 的防撤回功能了。
