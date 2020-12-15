@@ -26,10 +26,12 @@ Proxifier 作为最常用的代理软件，在 Big Sur 系统上，需要升级�
 Unable to open debugger port (127.0.0.1:0): java.net.SocketException "Protocol wrong type for socket (Listen failed)"
 ```
 
-百度、Google 过相关的错误，大多答非所问。最终在 Stack Overflow 上找到了问题所在，居然是 Proxifier 的代理出现了问题，也有人说是 macOS Big Sur 本身的 Network Extension API 问题，暂时也无解，只得在 debug 时，关掉 Proxifier。
+~~百度、Google 过相关的错误，大多答非所问。最终在 Stack Overflow 上找到了问题所在，居然是 Proxifier 的代理出现了问题，也有人说是 macOS Big Sur 本身的 Network Extension API 问题，暂时也无解，只得在 debug 时，关掉 Proxifier。~~
 
-相关网址：Cannot listen to any TCP port on macOS Big Sur with app Proxifier: protocol wrong type for socket - Stack Overflow 
-https://stackoverflow.com/questions/64822795/cannot-listen-to-any-tcp-port-on-macos-big-sur-with-app-proxifier-protocol-wron
+~~相关网址：Cannot listen to any TCP port on macOS Big Sur with app Proxifier: protocol wrong type for socket - Stack Overflow~~ 
+~~https://stackoverflow.com/questions/64822795/cannot-listen-to-any-tcp-port-on-macos-big-sur-with-app-proxifier-protocol-wron~~
+
+2020 年 12 月 15 日，macOS Big Sur 11.1 正式发布，升级该版本之后，debug 端口监听问题完美解决。
 
 ## WeChat-plugin
 
