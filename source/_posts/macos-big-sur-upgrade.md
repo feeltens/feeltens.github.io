@@ -33,6 +33,10 @@ Unable to open debugger port (127.0.0.1:0): java.net.SocketException "Protocol w
 
 2020 年 12 月 15 日，macOS Big Sur 11.1 正式发布，升级该版本之后，debug 端口监听问题完美解决。
 
+2020 年 12 月 18 日，这两天 Macbook 因为微信而 crash 了多次（crash 日志显示是因为 WeChat），还有次代码还没保存。。经过排查，把 Proxifier for Mac v3 换成 Proxifier for Mac v2.28 2020.11.17 就不会 os crash 了。相关下载和说明如下：
+
+https://www.proxifier.com/download/bigsur/v2exp.html
+
 ## WeChat-plugin
 
 在 Mac 微信上删除对话框，然后 Macbook 又 crash 了。。没关系，我暂时不用 WeChat-plugin 的防撤回功能了。
